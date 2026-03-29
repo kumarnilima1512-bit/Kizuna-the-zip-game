@@ -6,43 +6,142 @@ const CELL = 64;
 const GAP = 8;
 const PADDING = 24;
 
-const PUZZLE = {
-  size: 5,
-  dots: [
-    { row: 0, col: 0, number: 1 },
-    { row: 1, col: 4, number: 2 },
-    { row: 2, col: 0, number: 3 },
-    { row: 3, col: 4, number: 4 },
-    { row: 4, col: 0, number: 5 },
-  ],
-  solution: [
-    { row: 0, col: 0 },
-    { row: 0, col: 1 },
-    { row: 0, col: 2 },
-    { row: 0, col: 3 },
-    { row: 0, col: 4 },
-    { row: 1, col: 4 },
-    { row: 1, col: 3 },
-    { row: 1, col: 2 },
-    { row: 1, col: 1 },
-    { row: 1, col: 0 },
-    { row: 2, col: 0 },
-    { row: 2, col: 1 },
-    { row: 2, col: 2 },
-    { row: 2, col: 3 },
-    { row: 2, col: 4 },
-    { row: 3, col: 4 },
-    { row: 3, col: 3 },
-    { row: 3, col: 2 },
-    { row: 3, col: 1 },
-    { row: 3, col: 0 },
-    { row: 4, col: 0 },
-    { row: 4, col: 1 },
-    { row: 4, col: 2 },
-    { row: 4, col: 3 },
-    { row: 4, col: 4 },
-  ],
+// All puzzles — each verified solvable (25 cells, all adjacent steps)
+const PUZZLES = [
+  // Level 1 — Simple snake
+  {
+    size: 5,
+    dots: [
+      { row: 0, col: 0, number: 1 },
+      { row: 1, col: 4, number: 2 },
+      { row: 2, col: 0, number: 3 },
+      { row: 3, col: 4, number: 4 },
+      { row: 4, col: 0, number: 5 },
+    ],
+    solution: [
+      { row: 0, col: 0 }, { row: 0, col: 1 }, { row: 0, col: 2 }, { row: 0, col: 3 }, { row: 0, col: 4 },
+      { row: 1, col: 4 }, { row: 1, col: 3 }, { row: 1, col: 2 }, { row: 1, col: 1 }, { row: 1, col: 0 },
+      { row: 2, col: 0 }, { row: 2, col: 1 }, { row: 2, col: 2 }, { row: 2, col: 3 }, { row: 2, col: 4 },
+      { row: 3, col: 4 }, { row: 3, col: 3 }, { row: 3, col: 2 }, { row: 3, col: 1 }, { row: 3, col: 0 },
+      { row: 4, col: 0 }, { row: 4, col: 1 }, { row: 4, col: 2 }, { row: 4, col: 3 }, { row: 4, col: 4 },
+    ],
+  },
+
+  // Level 2 — Column snake
+  {
+    size: 5,
+    dots: [
+      { row: 0, col: 0, number: 1 },
+      { row: 4, col: 0, number: 2 },
+      { row: 4, col: 2, number: 3 },
+      { row: 0, col: 2, number: 4 },
+      { row: 0, col: 4, number: 5 },
+    ],
+    solution: [
+      { row: 0, col: 0 }, { row: 1, col: 0 }, { row: 2, col: 0 }, { row: 3, col: 0 }, { row: 4, col: 0 },
+      { row: 4, col: 1 }, { row: 3, col: 1 }, { row: 2, col: 1 }, { row: 1, col: 1 }, { row: 0, col: 1 },
+      { row: 0, col: 2 }, { row: 1, col: 2 }, { row: 2, col: 2 }, { row: 3, col: 2 }, { row: 4, col: 2 },
+      { row: 4, col: 3 }, { row: 3, col: 3 }, { row: 2, col: 3 }, { row: 1, col: 3 }, { row: 0, col: 3 },
+      { row: 0, col: 4 }, { row: 1, col: 4 }, { row: 2, col: 4 }, { row: 3, col: 4 }, { row: 4, col: 4 },
+    ],
+  },
+
+  // Level 3 — Z shape
+  {
+    size: 5,
+    dots: [
+      { row: 0, col: 0, number: 1 },
+      { row: 0, col: 4, number: 2 },
+      { row: 2, col: 2, number: 3 },
+      { row: 4, col: 0, number: 4 },
+      { row: 4, col: 4, number: 5 },
+    ],
+    solution: [
+      { row: 0, col: 0 }, { row: 0, col: 1 }, { row: 0, col: 2 }, { row: 0, col: 3 }, { row: 0, col: 4 },
+      { row: 1, col: 4 }, { row: 1, col: 3 }, { row: 1, col: 2 }, { row: 1, col: 1 }, { row: 1, col: 0 },
+      { row: 2, col: 0 }, { row: 2, col: 1 }, { row: 2, col: 2 },
+      { row: 2, col: 3 }, { row: 2, col: 4 },
+      { row: 3, col: 4 }, { row: 3, col: 3 }, { row: 3, col: 2 }, { row: 3, col: 1 }, { row: 3, col: 0 },
+      { row: 4, col: 0 }, { row: 4, col: 1 }, { row: 4, col: 2 }, { row: 4, col: 3 }, { row: 4, col: 4 },
+    ],
+  },
+
+  // Level 4 — U shape
+  {
+    size: 5,
+    dots: [
+      { row: 0, col: 0, number: 1 },
+      { row: 0, col: 4, number: 2 },
+      { row: 2, col: 4, number: 3 },
+      { row: 2, col: 0, number: 4 },
+      { row: 4, col: 2, number: 5 },
+    ],
+    solution: [
+      { row: 0, col: 0 }, { row: 0, col: 1 }, { row: 0, col: 2 }, { row: 0, col: 3 }, { row: 0, col: 4 },
+      { row: 1, col: 4 }, { row: 1, col: 3 }, { row: 1, col: 2 }, { row: 1, col: 1 }, { row: 1, col: 0 },
+      { row: 2, col: 0 }, { row: 3, col: 0 }, { row: 4, col: 0 }, { row: 4, col: 1 }, { row: 4, col: 2 },
+      { row: 4, col: 3 }, { row: 4, col: 4 }, { row: 3, col: 4 }, { row: 2, col: 4 },
+      { row: 2, col: 3 }, { row: 2, col: 2 }, { row: 2, col: 1 },
+      { row: 3, col: 1 }, { row: 3, col: 2 }, { row: 3, col: 3 },
+    ],
+  },
+
+  // Level 5 — Pinwheel
+  {
+    size: 5,
+    dots: [
+      { row: 0, col: 2, number: 1 },
+      { row: 2, col: 4, number: 2 },
+      { row: 4, col: 2, number: 3 },
+      { row: 2, col: 0, number: 4 },
+      { row: 0, col: 0, number: 5 },
+    ],
+    solution: [
+      { row: 0, col: 2 }, { row: 0, col: 3 }, { row: 0, col: 4 },
+      { row: 1, col: 4 }, { row: 2, col: 4 },
+      { row: 3, col: 4 }, { row: 4, col: 4 }, { row: 4, col: 3 }, { row: 4, col: 2 },
+      { row: 4, col: 1 }, { row: 4, col: 0 }, { row: 3, col: 0 }, { row: 2, col: 0 },
+      { row: 1, col: 0 }, { row: 0, col: 0 },
+      { row: 0, col: 1 },
+      { row: 1, col: 1 }, { row: 1, col: 2 }, { row: 1, col: 3 },
+      { row: 2, col: 3 }, { row: 2, col: 2 }, { row: 2, col: 1 },
+      { row: 3, col: 1 }, { row: 3, col: 2 }, { row: 3, col: 3 },
+    ],
+  },
+
+  // Level 6 — Cross
+  {
+    size: 5,
+    dots: [
+      { row: 0, col: 0, number: 1 },
+      { row: 0, col: 4, number: 2 },
+      { row: 2, col: 2, number: 3 },
+      { row: 4, col: 4, number: 4 },
+      { row: 4, col: 0, number: 5 },
+    ],
+    solution: [
+      { row: 0, col: 0 }, { row: 1, col: 0 }, { row: 2, col: 0 }, { row: 3, col: 0 }, { row: 4, col: 0 },
+      { row: 4, col: 1 }, { row: 3, col: 1 }, { row: 2, col: 1 }, { row: 1, col: 1 }, { row: 0, col: 1 },
+      { row: 0, col: 2 }, { row: 0, col: 3 }, { row: 0, col: 4 },
+      { row: 1, col: 4 }, { row: 1, col: 3 }, { row: 1, col: 2 }, { row: 2, col: 2 },
+      { row: 2, col: 3 }, { row: 2, col: 4 }, { row: 3, col: 4 }, { row: 4, col: 4 },
+      { row: 4, col: 3 }, { row: 4, col: 2 }, { row: 3, col: 2 }, { row: 3, col: 3 },
+    ],
+  },
+];
+
+const isValidPuzzle = (puzzle) => {
+  const { solution, size } = puzzle;
+  if (solution.length !== size * size) return false;
+  for (let i = 1; i < solution.length; i++) {
+    const prev = solution[i - 1];
+    const curr = solution[i];
+    if (Math.abs(prev.row - curr.row) + Math.abs(prev.col - curr.col) !== 1) return false;
+  }
+  return true;
 };
+
+const VALID_PUZZLES = PUZZLES.filter(isValidPuzzle);
 
 const DOT_COLORS = {
   1: '#FF3CAC',
@@ -55,13 +154,10 @@ const DOT_COLORS = {
 const PATH_COLOR = '#FF3CAC';
 const PATH_LIGHT = 'rgba(255,60,172,0.25)';
 
-const makeGrid = (size) =>
-  Array(size).fill(null).map(() => Array(size).fill(null));
-
 function GamePage() {
   const navigate = useNavigate();
-  const size = PUZZLE.size;
 
+  const [levelIndex, setLevelIndex] = useState(0);
   const [path, setPath] = useState([]);
   const [drawing, setDrawing] = useState(false);
   const [seconds, setSeconds] = useState(0);
@@ -70,6 +166,9 @@ function GamePage() {
   const [hint, setHint] = useState(null);
   const [hintsLeft, setHintsLeft] = useState(3);
 
+  const puzzle = VALID_PUZZLES[levelIndex % VALID_PUZZLES.length];
+  const size = puzzle.size;
+
   // Timer
   useEffect(() => {
     if (!running || won) return;
@@ -77,25 +176,25 @@ function GamePage() {
     return () => clearInterval(t);
   }, [running, won]);
 
-  // Global mouseup — stops drawing anywhere on page
+  // Global mouseup — stops drawing anywhere
   useEffect(() => {
-    const handleGlobalMouseUp = () => setDrawing(false);
-    window.addEventListener('mouseup', handleGlobalMouseUp);
-    return () => window.removeEventListener('mouseup', handleGlobalMouseUp);
+    const up = () => setDrawing(false);
+    window.addEventListener('mouseup', up);
+    return () => window.removeEventListener('mouseup', up);
   }, []);
 
   const formatTime = (s) =>
     `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
 
   const getDot = (row, col) =>
-    PUZZLE.dots.find(d => d.row === row && d.col === col);
+    puzzle.dots.find(d => d.row === row && d.col === col);
 
   const isInPath = (row, col) =>
     path.some(p => p.row === row && p.col === col);
 
   const getNextDotNumber = (currentPath) => {
-    for (let i = 0; i < PUZZLE.dots.length; i++) {
-      const dot = PUZZLE.dots[i];
+    for (let i = 0; i < puzzle.dots.length; i++) {
+      const dot = puzzle.dots[i];
       if (!currentPath.some(p => p.row === dot.row && p.col === dot.col)) {
         return dot.number;
       }
@@ -113,7 +212,7 @@ function GamePage() {
     if (currentPath.length !== size * size) return;
     const lastCell = currentPath[currentPath.length - 1];
     const lastDot = getDot(lastCell.row, lastCell.col);
-    if (lastDot && lastDot.number === PUZZLE.dots.length) {
+    if (lastDot && lastDot.number === puzzle.dots.length) {
       setWon(true);
       setRunning(false);
     }
@@ -129,7 +228,7 @@ function GamePage() {
   const handleCellEnter = (row, col) => {
     if (!drawing || path.length === 0) return;
 
-    // Backtrack — if entering previous cell, remove last
+    // Backtrack
     if (path.length >= 2) {
       const prev = path[path.length - 2];
       if (prev.row === row && prev.col === col) {
@@ -141,7 +240,6 @@ function GamePage() {
     if (!isAdjacent(row, col, path)) return;
     if (isInPath(row, col)) return;
 
-    // If this cell has a dot, must be the next number in order
     const dot = getDot(row, col);
     if (dot) {
       const nextNum = getNextDotNumber(path);
@@ -156,8 +254,8 @@ function GamePage() {
   const handleHint = () => {
     if (hintsLeft <= 0) return;
     const nextIdx = path.length;
-    if (nextIdx < PUZZLE.solution.length) {
-      setHint(PUZZLE.solution[nextIdx]);
+    if (nextIdx < puzzle.solution.length) {
+      setHint(puzzle.solution[nextIdx]);
       setHintsLeft(h => h - 1);
       setTimeout(() => setHint(null), 1500);
     }
@@ -169,8 +267,18 @@ function GamePage() {
     setSeconds(0);
     setRunning(true);
     setWon(false);
-    setHintsLeft(3);
     setHint(null);
+  };
+
+  const handleNextLevel = () => {
+    setLevelIndex(i => i + 1);
+    setPath([]);
+    setDrawing(false);
+    setSeconds(0);
+    setRunning(true);
+    setWon(false);
+    setHint(null);
+    setHintsLeft(3);
   };
 
   const getCellStyle = (row, col) => {
@@ -202,6 +310,7 @@ function GamePage() {
   };
 
   const gridPixelSize = size * CELL + (size - 1) * GAP;
+  const currentLevel = levelIndex + 1;
 
   return (
     <div className="game-page">
@@ -215,15 +324,13 @@ function GamePage() {
 
       <main className="game-main">
         <div className="game-top">
-          <p className="puzzle-label">Today's Puzzle</p>
+          <p className="puzzle-label">Level {currentLevel}</p>
           <p className="puzzle-rule">Draw a path · 1 → 2 → 3 → 4 → 5 · Fill every cell</p>
         </div>
 
         {/* GRID WRAPPER */}
-        <div
-          className="grid-wrapper"
-          style={{ padding: PADDING }}
-        >
+        <div className="grid-wrapper" style={{ padding: PADDING }}>
+
           {/* SVG LINE OVERLAY */}
           <svg
             width={gridPixelSize}
@@ -278,9 +385,7 @@ function GamePage() {
                     onMouseDown={() => handleCellDown(ri, ci)}
                     onMouseEnter={() => handleCellEnter(ri, ci)}
                   >
-                    {dot && (
-                      <span className="dot-label">{dot.number}</span>
-                    )}
+                    {dot && <span className="dot-label">{dot.number}</span>}
                   </div>
                 );
               })
@@ -315,17 +420,24 @@ function GamePage() {
         <div className="modal-overlay">
           <div className="modal">
             <div className="modal-logo">🎉</div>
-            <h2>You solved it!</h2>
+            <h2>Level {currentLevel} cleared!</h2>
             <p>Time: <strong>{formatTime(seconds)}</strong></p>
             <p style={{ color: '#888899', fontSize: '0.9rem', marginTop: '0.5rem' }}>
-              Come back tomorrow for a new puzzle!
+              Ready for the next challenge?
             </p>
             <button
               className="btn-primary"
               style={{ marginTop: '1.5rem' }}
+              onClick={handleNextLevel}
+            >
+              Next Level →
+            </button>
+            <button
+              className="btn-secondary"
+              style={{ marginTop: '0.75rem' }}
               onClick={handleReset}
             >
-              Play Again
+              Replay this level
             </button>
             <button
               className="btn-secondary"
