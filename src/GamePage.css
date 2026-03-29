@@ -1,0 +1,231 @@
+.game-page {
+  min-height: 100vh;
+  background: #0a0a0f;
+  color: #f0f0f5;
+  font-family: 'DM Sans', sans-serif;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 2rem;
+  background: rgba(10,10,15,0.8);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.back-btn {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #f0f0f5;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+.back-btn:hover { background: rgba(255,255,255,0.15); }
+
+.game-logo {
+  font-size: 1.4rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #FF3CAC, #2B86C5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.timer {
+  font-size: 1.3rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #00F5A0;
+  letter-spacing: 2px;
+}
+
+.game-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  gap: 1.5rem;
+}
+
+.game-top { text-align: center; }
+
+.puzzle-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #F9A826;
+  margin-bottom: 0.4rem;
+}
+
+.puzzle-rule {
+  font-size: 0.9rem;
+  color: #888899;
+  font-weight: 300;
+}
+
+/* GRID */
+.grid-wrapper {
+  position: relative;
+  display: inline-block;
+  background: #12121a;
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.07);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.grid {
+  display: grid;
+}
+
+.cell {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, border 0.15s;
+  position: relative;
+  z-index: 3;
+}
+
+.dot-cell {
+  border-radius: 50% !important;
+  cursor: default;
+}
+
+.dot-label {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #fff;
+  z-index: 4;
+  position: relative;
+}
+
+.cell.hinted {
+  animation: pulse 0.5s ease infinite alternate;
+}
+
+@keyframes pulse {
+  from { transform: scale(1); }
+  to   { transform: scale(1.15); }
+}
+
+/* PROGRESS */
+.progress-bar-wrap {
+  width: 340px;
+  height: 6px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #FF3CAC, #784BA0);
+  border-radius: 999px;
+  transition: width 0.2s ease;
+}
+
+.progress-text {
+  font-size: 0.8rem;
+  color: #888899;
+}
+
+/* CONTROLS */
+.controls {
+  display: flex;
+  gap: 1rem;
+}
+
+.ctrl-btn {
+  background: #12121a;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #f0f0f5;
+  padding: 0.7rem 1.5rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+.ctrl-btn:hover { background: rgba(255,255,255,0.1); }
+.ctrl-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.hint-btn { color: #F9A826; border-color: rgba(249,168,38,0.3); }
+
+/* WIN MODAL */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.modal {
+  background: #12121a;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 28px;
+  padding: 3rem 2.5rem;
+  text-align: center;
+  max-width: 360px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal-logo { font-size: 3.5rem; margin-bottom: 1rem; }
+.modal h2 { font-size: 2rem; font-weight: 800; margin-bottom: 0.75rem; }
+.modal p { font-size: 1rem; }
+
+.btn-primary {
+  background: linear-gradient(135deg, #FF3CAC, #784BA0);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.9rem 2.2rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 0 30px rgba(255,60,172,0.4);
+  width: 100%;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 50px rgba(255,60,172,0.6);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #f0f0f5;
+  font-size: 1rem;
+  padding: 0.9rem 2.2rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.2);
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+}
+.btn-secondary:hover {
+  border-color: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.05);
+}
