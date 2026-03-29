@@ -5,143 +5,8 @@ import '../GamePage.css';
 const CELL = 64;
 const GAP = 8;
 const PADDING = 24;
-
-// All puzzles — each verified solvable (25 cells, all adjacent steps)
-const PUZZLES = [
-  // Level 1 — Simple snake
-  {
-    size: 5,
-    dots: [
-      { row: 0, col: 0, number: 1 },
-      { row: 1, col: 4, number: 2 },
-      { row: 2, col: 0, number: 3 },
-      { row: 3, col: 4, number: 4 },
-      { row: 4, col: 0, number: 5 },
-    ],
-    solution: [
-      { row: 0, col: 0 }, { row: 0, col: 1 }, { row: 0, col: 2 }, { row: 0, col: 3 }, { row: 0, col: 4 },
-      { row: 1, col: 4 }, { row: 1, col: 3 }, { row: 1, col: 2 }, { row: 1, col: 1 }, { row: 1, col: 0 },
-      { row: 2, col: 0 }, { row: 2, col: 1 }, { row: 2, col: 2 }, { row: 2, col: 3 }, { row: 2, col: 4 },
-      { row: 3, col: 4 }, { row: 3, col: 3 }, { row: 3, col: 2 }, { row: 3, col: 1 }, { row: 3, col: 0 },
-      { row: 4, col: 0 }, { row: 4, col: 1 }, { row: 4, col: 2 }, { row: 4, col: 3 }, { row: 4, col: 4 },
-    ],
-  },
-
-  // Level 2 — Column snake
-  {
-    size: 5,
-    dots: [
-      { row: 0, col: 0, number: 1 },
-      { row: 4, col: 0, number: 2 },
-      { row: 4, col: 2, number: 3 },
-      { row: 0, col: 2, number: 4 },
-      { row: 0, col: 4, number: 5 },
-    ],
-    solution: [
-      { row: 0, col: 0 }, { row: 1, col: 0 }, { row: 2, col: 0 }, { row: 3, col: 0 }, { row: 4, col: 0 },
-      { row: 4, col: 1 }, { row: 3, col: 1 }, { row: 2, col: 1 }, { row: 1, col: 1 }, { row: 0, col: 1 },
-      { row: 0, col: 2 }, { row: 1, col: 2 }, { row: 2, col: 2 }, { row: 3, col: 2 }, { row: 4, col: 2 },
-      { row: 4, col: 3 }, { row: 3, col: 3 }, { row: 2, col: 3 }, { row: 1, col: 3 }, { row: 0, col: 3 },
-      { row: 0, col: 4 }, { row: 1, col: 4 }, { row: 2, col: 4 }, { row: 3, col: 4 }, { row: 4, col: 4 },
-    ],
-  },
-
-  // Level 3 — Z shape
-  {
-    size: 5,
-    dots: [
-      { row: 0, col: 0, number: 1 },
-      { row: 0, col: 4, number: 2 },
-      { row: 2, col: 2, number: 3 },
-      { row: 4, col: 0, number: 4 },
-      { row: 4, col: 4, number: 5 },
-    ],
-    solution: [
-      { row: 0, col: 0 }, { row: 0, col: 1 }, { row: 0, col: 2 }, { row: 0, col: 3 }, { row: 0, col: 4 },
-      { row: 1, col: 4 }, { row: 1, col: 3 }, { row: 1, col: 2 }, { row: 1, col: 1 }, { row: 1, col: 0 },
-      { row: 2, col: 0 }, { row: 2, col: 1 }, { row: 2, col: 2 },
-      { row: 2, col: 3 }, { row: 2, col: 4 },
-      { row: 3, col: 4 }, { row: 3, col: 3 }, { row: 3, col: 2 }, { row: 3, col: 1 }, { row: 3, col: 0 },
-      { row: 4, col: 0 }, { row: 4, col: 1 }, { row: 4, col: 2 }, { row: 4, col: 3 }, { row: 4, col: 4 },
-    ],
-  },
-
-  // Level 4 — U shape
-  {
-    size: 5,
-    dots: [
-      { row: 0, col: 0, number: 1 },
-      { row: 0, col: 4, number: 2 },
-      { row: 2, col: 4, number: 3 },
-      { row: 2, col: 0, number: 4 },
-      { row: 4, col: 2, number: 5 },
-    ],
-    solution: [
-      { row: 0, col: 0 }, { row: 0, col: 1 }, { row: 0, col: 2 }, { row: 0, col: 3 }, { row: 0, col: 4 },
-      { row: 1, col: 4 }, { row: 1, col: 3 }, { row: 1, col: 2 }, { row: 1, col: 1 }, { row: 1, col: 0 },
-      { row: 2, col: 0 }, { row: 3, col: 0 }, { row: 4, col: 0 }, { row: 4, col: 1 }, { row: 4, col: 2 },
-      { row: 4, col: 3 }, { row: 4, col: 4 }, { row: 3, col: 4 }, { row: 2, col: 4 },
-      { row: 2, col: 3 }, { row: 2, col: 2 }, { row: 2, col: 1 },
-      { row: 3, col: 1 }, { row: 3, col: 2 }, { row: 3, col: 3 },
-    ],
-  },
-
-  // Level 5 — Pinwheel
-  {
-    size: 5,
-    dots: [
-      { row: 0, col: 2, number: 1 },
-      { row: 2, col: 4, number: 2 },
-      { row: 4, col: 2, number: 3 },
-      { row: 2, col: 0, number: 4 },
-      { row: 0, col: 0, number: 5 },
-    ],
-    solution: [
-      { row: 0, col: 2 }, { row: 0, col: 3 }, { row: 0, col: 4 },
-      { row: 1, col: 4 }, { row: 2, col: 4 },
-      { row: 3, col: 4 }, { row: 4, col: 4 }, { row: 4, col: 3 }, { row: 4, col: 2 },
-      { row: 4, col: 1 }, { row: 4, col: 0 }, { row: 3, col: 0 }, { row: 2, col: 0 },
-      { row: 1, col: 0 }, { row: 0, col: 0 },
-      { row: 0, col: 1 },
-      { row: 1, col: 1 }, { row: 1, col: 2 }, { row: 1, col: 3 },
-      { row: 2, col: 3 }, { row: 2, col: 2 }, { row: 2, col: 1 },
-      { row: 3, col: 1 }, { row: 3, col: 2 }, { row: 3, col: 3 },
-    ],
-  },
-
-  // Level 6 — Cross
-  {
-    size: 5,
-    dots: [
-      { row: 0, col: 0, number: 1 },
-      { row: 0, col: 4, number: 2 },
-      { row: 2, col: 2, number: 3 },
-      { row: 4, col: 4, number: 4 },
-      { row: 4, col: 0, number: 5 },
-    ],
-    solution: [
-      { row: 0, col: 0 }, { row: 1, col: 0 }, { row: 2, col: 0 }, { row: 3, col: 0 }, { row: 4, col: 0 },
-      { row: 4, col: 1 }, { row: 3, col: 1 }, { row: 2, col: 1 }, { row: 1, col: 1 }, { row: 0, col: 1 },
-      { row: 0, col: 2 }, { row: 0, col: 3 }, { row: 0, col: 4 },
-      { row: 1, col: 4 }, { row: 1, col: 3 }, { row: 1, col: 2 }, { row: 2, col: 2 },
-      { row: 2, col: 3 }, { row: 2, col: 4 }, { row: 3, col: 4 }, { row: 4, col: 4 },
-      { row: 4, col: 3 }, { row: 4, col: 2 }, { row: 3, col: 2 }, { row: 3, col: 3 },
-    ],
-  },
-];
-
-const isValidPuzzle = (puzzle) => {
-  const { solution, size } = puzzle;
-  if (solution.length !== size * size) return false;
-  for (let i = 1; i < solution.length; i++) {
-    const prev = solution[i - 1];
-    const curr = solution[i];
-    if (Math.abs(prev.row - curr.row) + Math.abs(prev.col - curr.col) !== 1) return false;
-  }
-  return true;
-};
-
-const VALID_PUZZLES = PUZZLES.filter(isValidPuzzle);
+const GRID_SIZE = 5;
+const NUM_DOTS = 5;
 
 const DOT_COLORS = {
   1: '#FF3CAC',
@@ -154,10 +19,123 @@ const DOT_COLORS = {
 const PATH_COLOR = '#FF3CAC';
 const PATH_LIGHT = 'rgba(255,60,172,0.25)';
 
+// ── PUZZLE GENERATOR ──────────────────────────────────────────────
+// Uses a random walk with backtracking to fill all cells,
+// then picks NUM_DOTS evenly spaced points as numbered stops.
+
+function generatePuzzle(size, seed) {
+  // Simple seeded random so same level number = same puzzle
+  let s = seed + 1;
+  const rand = () => {
+    s = (s * 1664525 + 1013904223) & 0xffffffff;
+    return (s >>> 0) / 0xffffffff;
+  };
+  const randInt = (n) => Math.floor(rand() * n);
+
+  const total = size * size;
+  const dirs = [
+    { dr: -1, dc: 0 },
+    { dr: 1, dc: 0 },
+    { dr: 0, dc: -1 },
+    { dr: 0, dc: 1 },
+  ];
+
+  const shuffle = (arr) => {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = randInt(i + 1);
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  };
+
+  // Try to build a Hamiltonian path using backtracking + Warnsdorff heuristic
+  const tryBuild = () => {
+    const visited = Array(size).fill(null).map(() => Array(size).fill(false));
+    const path = [];
+
+    // Random start cell
+    const startRow = randInt(size);
+    const startCol = randInt(size);
+    visited[startRow][startCol] = true;
+    path.push({ row: startRow, col: startCol });
+
+    const backtrack = () => {
+      if (path.length === total) return true;
+
+      const last = path[path.length - 1];
+
+      // Warnsdorff: sort neighbors by how many onward moves they have
+      const neighbors = shuffle(dirs)
+        .map(d => ({ row: last.row + d.dr, col: last.col + d.dc }))
+        .filter(n =>
+          n.row >= 0 && n.row < size &&
+          n.col >= 0 && n.col < size &&
+          !visited[n.row][n.col]
+        );
+
+      // Sort by degree (fewest onward moves first — Warnsdorff)
+      neighbors.sort((a, b) => {
+        const degA = dirs.filter(d => {
+          const nr = a.row + d.dr; const nc = a.col + d.dc;
+          return nr >= 0 && nr < size && nc >= 0 && nc < size && !visited[nr][nc];
+        }).length;
+        const degB = dirs.filter(d => {
+          const nr = b.row + d.dr; const nc = b.col + d.dc;
+          return nr >= 0 && nr < size && nc >= 0 && nc < size && !visited[nr][nc];
+        }).length;
+        return degA - degB;
+      });
+
+      for (const next of neighbors) {
+        visited[next.row][next.col] = true;
+        path.push(next);
+        if (backtrack()) return true;
+        path.pop();
+        visited[next.row][next.col] = false;
+      }
+      return false;
+    };
+
+    return backtrack() ? path : null;
+  };
+
+  // Try up to 10 times with different seeds
+  let solution = null;
+  for (let attempt = 0; attempt < 10; attempt++) {
+    s = seed + attempt + 1;
+    solution = tryBuild();
+    if (solution) break;
+  }
+
+  if (!solution) {
+    // Fallback: hardcoded snake path
+    solution = [];
+    for (let r = 0; r < size; r++) {
+      for (let c = 0; c < size; c++) {
+        solution.push({ row: r, col: r % 2 === 0 ? c : size - 1 - c });
+      }
+    }
+  }
+
+  // Pick NUM_DOTS evenly spaced positions along the solution path
+  const step = Math.floor(total / NUM_DOTS);
+  const dots = [];
+  for (let i = 0; i < NUM_DOTS; i++) {
+    const idx = i === NUM_DOTS - 1 ? total - 1 : i * step;
+    const cell = solution[idx];
+    dots.push({ row: cell.row, col: cell.col, number: i + 1 });
+  }
+
+  return { size, dots, solution };
+}
+// ─────────────────────────────────────────────────────────────────
+
 function GamePage() {
   const navigate = useNavigate();
 
   const [levelIndex, setLevelIndex] = useState(0);
+  const [puzzle, setPuzzle] = useState(() => generatePuzzle(GRID_SIZE, 0));
   const [path, setPath] = useState([]);
   const [drawing, setDrawing] = useState(false);
   const [seconds, setSeconds] = useState(0);
@@ -166,8 +144,12 @@ function GamePage() {
   const [hint, setHint] = useState(null);
   const [hintsLeft, setHintsLeft] = useState(3);
 
-  const puzzle = VALID_PUZZLES[levelIndex % VALID_PUZZLES.length];
   const size = puzzle.size;
+
+  // Generate new puzzle when level changes
+  useEffect(() => {
+    setPuzzle(generatePuzzle(GRID_SIZE, levelIndex * 999 + levelIndex));
+  }, [levelIndex]);
 
   // Timer
   useEffect(() => {
@@ -176,7 +158,7 @@ function GamePage() {
     return () => clearInterval(t);
   }, [running, won]);
 
-  // Global mouseup — stops drawing anywhere
+  // Global mouseup
   useEffect(() => {
     const up = () => setDrawing(false);
     window.addEventListener('mouseup', up);
@@ -284,7 +266,7 @@ function GamePage() {
   const getCellStyle = (row, col) => {
     const dot = getDot(row, col);
     const inPath = isInPath(row, col);
-    const isHint = hint && hint.row === row && hint.col === col;
+    const isHintCell = hint && hint.row === row && hint.col === col;
 
     if (dot) {
       return {
@@ -293,7 +275,7 @@ function GamePage() {
         boxShadow: `0 0 18px ${DOT_COLORS[dot.number]}99`,
       };
     }
-    if (isHint) {
+    if (isHintCell) {
       return {
         background: 'rgba(255,255,255,0.25)',
         border: '2px solid #fff',
@@ -325,7 +307,9 @@ function GamePage() {
       <main className="game-main">
         <div className="game-top">
           <p className="puzzle-label">Level {currentLevel}</p>
-          <p className="puzzle-rule">Draw a path · 1 → 2 → 3 → 4 → 5 · Fill every cell</p>
+          <p className="puzzle-rule">
+            Draw a path · 1 → 2 → 3 → 4 → 5 · Fill every cell
+          </p>
         </div>
 
         {/* GRID WRAPPER */}
